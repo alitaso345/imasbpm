@@ -9,6 +9,8 @@ IMAS_BPM_CACHE_DB = '.imas_bpm_cache.db'
 def main
   if ENV['FETCH_AND_STORE']
     fetch_and_store
+  elsif ARGV.count == 2
+    search_by_bpm(ARGV[0], ARGV[1])
   else
     search(ARGV[0])
   end
@@ -16,6 +18,11 @@ end
 
 def search(query)
   rows = db.execute("select * from bpm_values where title like ?;", "%#{query}%")
+  puts rows.map{|r| r.join("\t") }
+end
+
+def search_by_bpm(lower, upper)
+  rows = db.execute("select * from bpm_values where bpm >= ? and bpm <= ?;", lower, upper)
   puts rows.map{|r| r.join("\t") }
 end
 
