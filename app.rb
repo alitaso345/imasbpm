@@ -84,6 +84,7 @@ def store(rows)
 
   rows.each do |title, bpm|
     db.execute("insert into bpm_values (title, bpm) values (?, ?);", [title, bpm])
+    puts [title, bpm].join("\t") #雑なプログレスバーとして使ってる
   end
 end
 
